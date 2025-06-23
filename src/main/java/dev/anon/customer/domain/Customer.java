@@ -43,4 +43,7 @@ public class Customer {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    private CustomerSegment customerSegment;
 }
