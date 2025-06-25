@@ -26,7 +26,9 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(endpoints ->
                 endpoints
-                        .requestMatchers("/api/customers/public").permitAll()
+                        .requestMatchers("/api/customers/public",
+                                "/api/stores/**",
+                                "/api/mock/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/customers").hasRole("ADMIN")
                         .anyRequest().authenticated()
         );
