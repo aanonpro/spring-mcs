@@ -2,19 +2,42 @@ package dev.anon.customer.features.store;
 
 import dev.anon.customer.client.PlatziFakeStoreClient;
 import dev.anon.customer.client.dto.CategoryResponse;
+import dev.anon.customer.client.dto.ProductsResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/stores")
 @RequiredArgsConstructor
 public class FakeStoreController {
-
     private final PlatziFakeStoreClient platziFakeStoreClient;
+
+    @GetMapping("/products")
+    public List<ProductsResponse> getProducts(
+            @RequestParam(required = false, defaultValue = "0") Integer offset,
+            @RequestParam(required = false, defaultValue = "5") Integer limit
+    ) {
+        return platziFakeStoreClient.getProducts(offset, limit);
+    }
+
+    @GetMapping("/products/{id}")
+    ResponseEntity<?> getProductById(@PathVariable Integer id) {
+        try {
+            return ResponseEntity
+                    .ok(platziFakeStoreClient.getProductsById(id)
+                    );
+        } catch (WebClientResponseException e) {
+            return new ResponseEntity<>(Map.of(
+                    "error", e.getMessage()
+            ), HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("/categories")
     public List<CategoryResponse> getCategories() {
