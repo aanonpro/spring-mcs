@@ -2,7 +2,9 @@ package dev.anon.customer.features.store;
 
 import dev.anon.customer.client.PlatziFakeStoreClient;
 import dev.anon.customer.client.dto.CategoryResponse;
+import dev.anon.customer.client.dto.CreateProductRequest;
 import dev.anon.customer.client.dto.ProductsResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FakeStoreController {
     private final PlatziFakeStoreClient platziFakeStoreClient;
+
+    @PostMapping("/products")
+    public ProductsResponse createProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
+        return platziFakeStoreClient.createProduct(createProductRequest);
+    }
 
     @GetMapping("/products")
     public List<ProductsResponse> getProducts(

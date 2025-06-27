@@ -24,6 +24,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain apiSecurity(HttpSecurity http) throws Exception {
 
+        http.csrf(csrfToken -> csrfToken.disable());
+
         http.authorizeHttpRequests(endpoints ->
                 endpoints
                         .requestMatchers("/api/customers/public",
