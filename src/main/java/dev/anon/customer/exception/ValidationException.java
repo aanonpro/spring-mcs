@@ -3,6 +3,7 @@ package dev.anon.customer.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ValidationException {
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public RestError handleValidation(MethodArgumentNotValidException e) {
         List<Map<String, String>> fieldErrors = e.getFieldErrors().stream()

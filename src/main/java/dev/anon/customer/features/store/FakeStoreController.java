@@ -3,12 +3,14 @@ package dev.anon.customer.features.store;
 import dev.anon.customer.client.PlatziFakeStoreClient;
 import dev.anon.customer.client.dto.CategoryResponse;
 import dev.anon.customer.client.dto.CreateProductRequest;
+import dev.anon.customer.client.dto.FileUploadResponse;
 import dev.anon.customer.client.dto.ProductsResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
@@ -19,6 +21,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FakeStoreController {
     private final PlatziFakeStoreClient platziFakeStoreClient;
+
+    @PostMapping("/files/upload")
+    public FileUploadResponse uploadResponse(@RequestPart MultipartFile file) {
+        return platziFakeStoreClient.uploadFile(file);
+    }
 
     @PostMapping("/products")
     public ProductsResponse createProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
