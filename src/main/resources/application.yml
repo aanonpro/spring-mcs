@@ -1,21 +1,14 @@
 #spring.application.name=customer-service
-
 spring:
   application:
-    name: customer-service
-  jpa:
-    hibernate:
-      ddl-auto: update
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:5001/customer
-    username: postgres
-    password: qwer
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://127.0.0.1:8080/realms/dms
+    name: customer
+  profiles:
+    active: dev
+  config:
+    import: configserver:http://127.0.0.1:8888
 
-server:
-  port: 9090
+## for spring config server
+  cloud:
+    config:
+      username: admin #or ${config_username} --high secured
+      password: admin@123
