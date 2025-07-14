@@ -12,3 +12,9 @@ spring:
     config:
       username: admin #or ${config_username} --high secured
       password: admin@123
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
