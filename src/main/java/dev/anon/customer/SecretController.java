@@ -1,5 +1,6 @@
 package dev.anon.customer;
 
+import dev.anon.customer.config.props.DatabaseProps;
 import dev.anon.customer.config.props.ServiceInfoProps;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,23 +14,15 @@ import java.util.Map;
 public class SecretController {
 
     private final ServiceInfoProps serviceInfoProps;
-
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
-
-    @Value("${spring.datasource.username}")
-    private String dbUsername;
-
-    @Value("${spring.datasource.password}")
-    private String dbPassword;
+    private final DatabaseProps databaseProps;
 
     @GetMapping("/secrets")
     public Map<String, Object> secret() {
         return Map.of("info", serviceInfoProps.getInfo(),
                 "version", serviceInfoProps.getVersion(),
-                "url", dbUrl,
-                "username", dbUsername,
-                "password", dbPassword);
+                "url", databaseProps.getUrl(),
+                "username", databaseProps.getUsername(),
+                "password", databaseProps.getPassword());
     }
 
 }
